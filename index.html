@@ -724,6 +724,7 @@
     .about-value-title {      font-size: 15px;
       font-weight: 400;
       letter-spacing: 0.06em;
+      text-transform: uppercase;
       color: var(--dark);
       margin-bottom: 10px;
     }
@@ -759,6 +760,7 @@
     .contact-title {      font-size: 56px;
       font-weight: 200;
       line-height: 1.1;
+      text-transform: uppercase;
       letter-spacing: -0.01em;
       color: var(--dark);
       margin-bottom: 56px;
@@ -1019,6 +1021,33 @@
       .lb-nav-label { font-size: 8px; }
     }
 
+    @media (max-width: 480px) {
+      .lb-footer {
+        flex-wrap: wrap;
+        gap: 8px 0;
+        padding: 12px 16px;
+      }
+
+      .lb-footer-center {
+        order: -1;
+        width: 100%;
+        margin-bottom: 4px;
+      }
+
+      .lb-proj-btn {
+        flex: 1;
+        padding: 0;
+      }
+
+      #lb-proj-prev {
+        text-align: left;
+      }
+
+      #lb-proj-next {
+        text-align: right;
+      }
+    }
+
     /* ══════════════════════════════════
        IMAGES
     ══════════════════════════════════ */
@@ -1101,6 +1130,37 @@
     }
 
     .mobile-links a:hover { color: var(--mid); }
+
+    .mobile-close {
+      position: absolute;
+      top: 20px;
+      right: 24px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      padding: 8px;
+      transition: color 0.2s;
+      color: var(--dark);
+    }
+
+    .mobile-close-icon {
+      font-size: 22px;
+      font-weight: 300;
+      line-height: 1;
+    }
+
+    .mobile-close-label {
+      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+    }
+
+    .mobile-close:hover { color: var(--mid); }
 
     /* ══════════════════════════════════
        RESPONSIVE — TABLET ≤1024px
@@ -1221,6 +1281,10 @@
 
   <!-- ══ MOBILE MENU ══ -->
   <div id="mobile-menu" aria-hidden="true">
+    <button class="mobile-close" id="mobile-close" aria-label="Close menu">
+      <span class="mobile-close-icon">✕</span>
+      <span class="mobile-close-label">Back</span>
+    </button>
     <ul class="mobile-links">
       <li><a href="#work" class="mobile-link"><span class="lang-content en" data-lang="en">Work</span><span class="lang-content ro hidden" data-lang="ro">Proiecte</span></a></li>
       <li><a href="#services" class="mobile-link"><span class="lang-content en" data-lang="en">Services</span><span class="lang-content ro hidden" data-lang="ro">Servicii</span></a></li>
@@ -1309,9 +1373,9 @@
       <div class="project-filters">
         <button class="project-filter active" data-category="all">All</button>
         <button class="project-filter" data-category="sport">Sport</button>
-        <button class="project-filter" data-category="competitions">Competitions</button>
         <button class="project-filter" data-category="culture">Culture</button>
         <button class="project-filter" data-category="residential">Residential</button>
+        <button class="project-filter" data-category="competitions">Competitions</button>
       </div>
 
       <div class="projects-grid">
@@ -1494,26 +1558,6 @@
         <p class="contact-eyebrow reveal lang-content ro hidden" data-lang="ro">Contactează-ne</p>
         <h2 class="contact-title reveal reveal-delay-1 lang-content en" data-lang="en">Let's talk about<br><em>your project.</em></h2>
         <h2 class="contact-title reveal reveal-delay-1 lang-content ro hidden" data-lang="ro">Hai să discutăm<br><em>despre proiectul tău.</em></h2>
-        <div class="contact-details">
-          <div class="reveal reveal-delay-2">
-            <p class="contact-item-label">Email</p>
-            <a href="mailto:office@brickworksarch.com" class="contact-item-value">office@brickworksarch.com</a>
-          </div>
-          <div class="reveal reveal-delay-2">
-            <p class="contact-item-label lang-content en" data-lang="en">Phone</p>
-            <p class="contact-item-label lang-content ro hidden" data-lang="ro">Telefon</p>
-            <a href="tel:+40733306004" class="contact-item-value">+40 733 306 004</a>
-          </div>
-          <div class="reveal reveal-delay-2">
-            <p class="contact-item-label lang-content en" data-lang="en">Location</p>
-            <p class="contact-item-label lang-content ro hidden" data-lang="ro">Locație</p>
-            <span class="contact-item-value">Bucharest, Romania</span>
-          </div>
-          <div class="reveal reveal-delay-2">
-            <p class="contact-item-label">Instagram</p>
-            <a href="https://www.instagram.com/brickworks.arch" target="_blank" class="contact-item-value">@brickworks.arch</a>
-          </div>
-        </div>
       </div>
       <div class="contact-right">
         <div class="contact-details">
@@ -1612,6 +1656,14 @@
     // ── HAMBURGER MENU
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobile-menu');
+    const mobileClose = document.getElementById('mobile-close');
+
+    function closeMobileMenu() {
+      mobileMenu.classList.remove('open');
+      hamburger.classList.remove('open');
+      mobileMenu.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
 
     hamburger.addEventListener('click', () => {
       const isOpen = mobileMenu.classList.toggle('open');
@@ -1620,13 +1672,10 @@
       document.body.style.overflow = isOpen ? 'hidden' : '';
     });
 
+    mobileClose.addEventListener('click', closeMobileMenu);
+
     document.querySelectorAll('.mobile-link').forEach(link => {
-      link.addEventListener('click', () => {
-        mobileMenu.classList.remove('open');
-        hamburger.classList.remove('open');
-        mobileMenu.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-      });
+      link.addEventListener('click', closeMobileMenu);
     });
 
     // ── LANG TOGGLE (desktop + mobile in sync)
