@@ -1,0 +1,1883 @@
+<!DOCTYPE html>
+<html lang="ro-RO">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BRICKWORKS ARCHITECTURE | Birou de Arhitectură & Vizualizare 3D | București</title>
+  <meta name="description" content="BRICKWORKS ARCHITECTURE este un birou de arhitectură și vizualizare 3D din București. Proiectare generală BIM, design interior și randări fotorealiste." />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="BRICKWORKS ARCHITECTURE" />
+  <meta name="language" content="ro-RO" />
+  <link rel="canonical" href="https://www.brickworksarch.com" />
+  <meta property="og:title" content="BRICKWORKS ARCHITECTURE | Architecture & 3D Visualization | Bucharest" />
+  <meta property="og:description" content="Architecture studio based in Bucharest specializing in architectural design, interior design and photorealistic 3D visualization through BIM methodology." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.brickworksarch.com" />
+  <meta property="og:image" content="images/logo.jpg" />
+  
+  
+  
+  <style>
+    :root {
+      --cream: #f8f6f2;
+      --warm-gray: #edeae3;
+      --border: #dedad2;
+      --mid: #9a9690;
+      --dark: #1c1b18;
+      --sans: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--cream); font-family: var(--sans); color: var(--dark); overflow-x: hidden; }
+    *, *::before, *::after { font-family: inherit; }
+
+    .lang-content { display: block; }
+    .lang-content.hidden { display: none; }
+    span.lang-content { display: inline; }
+    span.lang-content.hidden { display: none; }
+
+    /* ══════════════════════════════════
+       INTRO SCREEN
+    ══════════════════════════════════ */
+    #intro {
+      position: fixed;
+      inset: 0;
+      background: var(--cream);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      pointer-events: none;
+      transition: opacity 1.1s ease, visibility 1.1s ease;
+    }
+
+    #intro.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .intro-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.25em;
+      width: 1080px;
+      max-width: 94vw;
+    }
+
+    .intro-brickworks {
+      text-align: center;
+      font-size: clamp(48px, 7vw, 96px);
+      font-weight: 550;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--dark);
+      white-space: nowrap;
+      line-height: 1;
+      animation:
+        bwEnter 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.8s both,
+        bwExit  1.1s ease                           1.9s forwards;
+    }
+
+    .intro-architecture {
+      text-align: center;
+      font-size: clamp(48px, 7vw, 96px);
+      font-weight: 550;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--dark);
+      white-space: nowrap;
+      line-height: 1;
+      animation:
+        archEnter 0.45s cubic-bezier(0.33, 1, 0.68, 1) 1.0s both,
+        archExit  1.1s  ease                           1.9s forwards;
+    }
+
+    @keyframes bwEnter   { from { opacity: 0; transform: translateX(60px);  } to { opacity: 1; transform: translateX(0);     } }
+    @keyframes bwExit    { from { opacity: 1; transform: translateX(0);      } to { opacity: 0; transform: translateX(-500px); } }
+    @keyframes archEnter { from { opacity: 0; transform: translateX(-60px);  } to { opacity: 1; transform: translateX(0);      } }
+    @keyframes archExit  { from { opacity: 1; transform: translateX(0);      } to { opacity: 0; transform: translateX(500px);  } }
+
+    /* ══════════════════════════════════
+       PAGE FADE IN
+    ══════════════════════════════════ */
+    #page {
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+
+    #page.visible { opacity: 1; }
+
+    /* ══════════════════════════════════
+       SCROLL REVEAL
+    ══════════════════════════════════ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ══════════════════════════════════
+       NAV
+    ══════════════════════════════════ */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 56px;
+      height: 64px;
+      background: rgba(248, 246, 242, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 0.5px solid transparent;
+      transition: border-color 0.3s, background 0.3s;
+    }
+
+    nav.scrolled {
+      border-bottom-color: var(--border);
+      background: rgba(248, 246, 242, 0.97);
+    }
+
+    .nav-logo {      font-weight: 300;
+      font-size: 13px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--dark);
+      text-decoration: none;
+    }
+
+    .nav-logo span { color: var(--dark); }
+
+    .nav-links {
+      display: flex;
+      gap: 40px;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+      text-decoration: none;
+      position: relative;
+      transition: color 0.25s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -3px;
+      left: 0;
+      width: 0;
+      height: 0.5px;
+      background: var(--dark);
+      transition: width 0.3s ease;
+    }
+
+    .nav-links a:hover { color: var(--dark); }
+    .nav-links a:hover::after { width: 100%; }
+
+    .lang-toggle {
+      display: flex;
+      border: 0.5px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .lang-btn {
+      padding: 5px 11px;      font-size: 10px;
+      font-weight: 550;
+      letter-spacing: 0.12em;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: var(--mid);
+      transition: all 0.2s;
+    }
+
+    .lang-btn.active { background: var(--dark); color: var(--cream); }
+
+    /* ══════════════════════════════════
+       HERO
+    ══════════════════════════════════ */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 64px;
+    }
+
+    .hero-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 64px 80px 56px;
+      border-right: 0.5px solid var(--border);
+    }
+
+    .hero-eyebrow {      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 40px;
+    }
+
+    .hero-title {      font-size: 80px;
+      font-weight: 200;
+      line-height: 1.05;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--dark);
+      margin-bottom: 16px;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      font-weight: 200;
+      color: var(--mid);
+    }
+
+    .hero-desc {      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.85;
+      color: var(--mid);
+      margin-bottom: 56px;
+      text-align: left;
+    }
+
+    .brand { color: var(--dark); font-weight: 300; letter-spacing: 0.28em; }
+
+    .hero-cta {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .btn-primary {      font-size: 10px;
+      font-weight: 550;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--cream);
+      background: var(--dark);
+      border: 1px solid var(--dark);
+      padding: 15px 36px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--dark);
+    }
+
+    .btn-ghost {      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+      background: none;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: color 0.3s;
+    }
+
+    .btn-ghost:hover { color: var(--dark); }
+
+    .btn-ghost::after {
+      content: '→';
+      font-size: 15px;
+      transition: transform 0.3s;
+    }
+
+    .btn-ghost:hover::after { transform: translateX(4px); }
+
+    .hero-right {
+      position: relative;
+      background: var(--warm-gray);
+      overflow: hidden;
+    }
+
+    .hero-img-grid {
+      height: 100%;
+    }
+
+    .hero-img-cell {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+      opacity: 0;
+      transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .hero-img.active { opacity: 1; }
+
+    .hero-caption {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 24px 32px;
+      background: linear-gradient(transparent, rgba(28,27,24,0.7));
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .hero-caption-label {      font-size: 9px;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(248,246,242,0.6);
+      margin-bottom: 4px;
+    }
+
+    .hero-caption-title {      font-size: 15px;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      color: var(--dark);
+    }
+
+    .hero-counter {      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.1em;
+      color: rgba(248,246,242,0.5);
+    }
+
+    .hero-nav {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .hero-nav-btn {
+      width: 34px;
+      height: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: 0.5px solid rgba(248,246,242,0.3);
+      color: rgba(248,246,242,0.7);
+      font-size: 15px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+      line-height: 1;
+    }
+
+    .hero-nav-btn:hover {
+      background: rgba(248,246,242,0.12);
+      border-color: rgba(248,246,242,0.6);
+      color: rgba(248,246,242,1);
+    }
+
+
+
+    /* STATS */
+    .stats {
+      display: flex;
+      border-top: 0.5px solid var(--border);
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .stat {
+      flex: 1;
+      padding: 32px 56px;
+      border-right: 0.5px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .stat:last-child { border-right: none; }
+
+    .stat-num {      font-size: 42px;
+      font-weight: 200;
+      color: var(--dark);
+      letter-spacing: -0.02em;
+      line-height: 1;
+    }
+
+    .stat-label {      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mid);
+    }
+
+    /* ══════════════════════════════════
+       SECTION SHARED
+    ══════════════════════════════════ */
+    .section-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      padding: 80px 56px 48px;
+    }
+
+    .section-eyebrow {      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 14px;
+    }
+
+    .section-title {      font-size: 52px;
+      font-weight: 200;
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--dark);
+    }
+
+    .section-title em {
+      font-style: italic;
+      color: var(--mid);
+    }
+
+    .section-cta {      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: color 0.25s;
+      padding-bottom: 2px;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .section-cta:hover { color: var(--dark); border-bottom-color: var(--dark); }
+    .section-cta::after { content: '→'; font-size: 14px; }
+
+    /* ══════════════════════════════════
+       PROJECTS
+    ══════════════════════════════════ */
+    #work {
+      border-top: 0.5px solid var(--border);
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.5px;
+      background: var(--border);
+    }
+
+    .project-card {
+      background: var(--cream);
+      cursor: pointer;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .project-filters {
+      display: flex;
+      flex-wrap: wrap;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .project-filter {      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mid);
+      background: none;
+      border: none;
+      border-bottom: 1.5px solid transparent;
+      padding: 18px 28px;
+      margin-bottom: -0.5px;
+      cursor: pointer;
+      transition: color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .project-filter:hover { color: var(--dark); }
+
+    .project-filter.active {
+      color: var(--dark);
+      border-bottom-color: var(--dark);
+    }
+
+    .project-img {
+      width: 100%;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .project-img-inner {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .project-card:hover .project-img-inner { transform: scale(1.06); }
+
+    .project-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(28,27,24,0);
+      transition: background 0.4s ease;
+    }
+
+    .project-card:hover .project-overlay { background: rgba(28,27,24,0.15); }
+
+    .img-p1 { background: #cac6bc; }
+    .img-p2 { background: #bdbab2; }
+    .img-p3 { background: #d3d0c7; }
+    .img-p4 { background: #c2bfb7; }
+    .img-p5 { background: #cecbc2; }
+    .img-p6 { background: #b6b3ac; }
+
+    .project-info {
+      padding: 22px 24px 26px;
+      transition: background 0.3s;
+    }
+
+    .project-card:hover .project-info { background: var(--warm-gray); }
+
+    .project-type {      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 8px;
+    }
+
+    .project-name {      font-size: 19px;
+      font-weight: 300;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--dark);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+
+    .project-location {      font-size: 13px;
+      font-weight: 300;
+      color: var(--mid);
+    }
+
+    /* ══════════════════════════════════
+       SERVICES
+    ══════════════════════════════════ */
+    #services {
+      background: var(--dark);
+      border-top: 0.5px solid var(--border);
+    }
+
+    #services .section-eyebrow { color: #666; }
+    #services .section-title { color: var(--cream); }
+    #services .section-title em { color: #666; }
+    #services .section-cta { color: #666; border-bottom-color: #333; }
+    #services .section-cta:hover { color: var(--cream); border-bottom-color: var(--cream); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      border-top: 0.5px solid #2e2e2a;
+    }
+
+    .service-card {
+      padding: 52px 48px;
+      border-right: 0.5px solid #2e2e2a;
+      transition: background 0.3s;
+    }
+
+    .service-card { border-bottom: 0.5px solid #2e2e2a; }
+    .service-card:nth-child(2n) { border-right: none; }
+    .service-card:nth-child(n+3) { border-bottom: none; }
+    .service-card:hover { background: #222220; }
+
+    .service-num {      font-size: 42px;
+      font-weight: 200;
+      letter-spacing: 0.05em;
+      color: #555;
+      margin-bottom: 32px;
+    }
+
+    .service-title {      font-size: 24px;
+      font-weight: 200;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--cream);
+      margin-bottom: 20px;
+      line-height: 1.25;
+    }
+
+    .service-desc {      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.8;
+      color: #888;
+      margin-bottom: 32px;
+    }
+
+    .service-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .service-list li {      font-size: 14px;
+      font-weight: 300;
+      color: #aaa;
+      padding-left: 18px;
+      position: relative;
+      letter-spacing: 0.02em;
+    }
+
+    .service-list li::before {
+      content: '•';
+      position: absolute;
+      left: 0;
+      color: #666;
+    }
+
+    /* ══════════════════════════════════
+       ABOUT
+    ══════════════════════════════════ */
+    #about {
+      border-top: 0.5px solid var(--border);
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .about-body {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-top: 0.5px solid var(--border);
+    }
+
+    .about-left {
+      padding: 72px 56px;
+      border-right: 0.5px solid var(--border);
+    }
+
+    .about-quote {      font-size: 30px;
+      font-weight: 200;
+      line-height: 1.4;
+      letter-spacing: 0.01em;
+      color: var(--dark);
+      margin-bottom: 48px;
+    }
+
+    .about-quote em {
+      font-style: italic;
+      color: var(--mid);
+    }
+
+    .about-text {      font-size: 15px;
+      font-weight: 300;
+      line-height: 1.9;
+      color: var(--mid);
+      margin-bottom: 24px;
+    }
+
+    .about-right {
+      padding: 72px 56px;
+    }
+
+    .about-value {
+      padding: 28px 0;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .about-value:first-child { border-top: 0.5px solid var(--border); }
+
+    .about-value-title {      font-size: 15px;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: var(--dark);
+      margin-bottom: 10px;
+    }
+
+    .about-value-desc {      font-size: 14px;
+      font-weight: 300;
+      line-height: 1.75;
+      color: var(--mid);
+    }
+
+    /* ══════════════════════════════════
+       CONTACT
+    ══════════════════════════════════ */
+    #contact {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-bottom: 0.5px solid var(--border);
+    }
+
+    .contact-left {
+      padding: 80px 56px;
+      border-right: 0.5px solid var(--border);
+    }
+
+    .contact-eyebrow {      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 24px;
+    }
+
+    .contact-title {      font-size: 56px;
+      font-weight: 200;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      color: var(--dark);
+      margin-bottom: 56px;
+    }
+
+    .contact-title em {
+      font-style: italic;
+      color: var(--mid);
+    }
+
+    .contact-details {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .contact-item-label {      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--mid);
+      margin-bottom: 4px;
+    }
+
+    .contact-item-value {      font-size: 14px;
+      font-weight: 300;
+      color: var(--dark);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .contact-item-value:hover { color: var(--mid); }
+
+    .contact-right {
+      padding: 80px 56px;
+      background: var(--warm-gray);
+    }
+
+
+    /* ══════════════════════════════════
+       FOOTER
+    ══════════════════════════════════ */
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 56px;
+      height: 60px;
+      border-top: 0.5px solid var(--border);
+    }
+
+    .footer-logo {      font-weight: 300;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--dark);
+    }
+
+    .footer-logo span { color: var(--mid); }
+
+    .footer-links {
+      display: flex;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .footer-links a {      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--mid);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .footer-links a:hover { color: var(--dark); }
+
+    .footer-copy {      font-size: 10px;
+      font-weight: 300;
+      color: var(--mid);
+    }
+
+    /* ══════════════════════════════════
+       LIGHTBOX
+    ══════════════════════════════════ */
+    #lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(28,27,24,0.96);
+      z-index: 9000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    #lightbox.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .lb-close {
+      position: absolute;
+      top: 24px;
+      right: 32px;
+      background: none;
+      border: none;
+      color: rgba(248,246,242,0.5);
+      font-size: 26px;
+      line-height: 1;
+      cursor: pointer;
+      transition: color 0.2s;
+      z-index: 1;
+    }
+
+    .lb-close:hover { color: var(--cream); }
+
+    .lb-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+      padding: 64px 32px 0;
+      flex: 1;
+      min-height: 0;
+    }
+
+    .lb-img-wrap {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-height: calc(100vh - 140px);
+    }
+
+    #lb-img {
+      max-width: 100%;
+      max-height: calc(100vh - 140px);
+      object-fit: contain;
+      display: block;
+      transition: opacity 0.2s ease;
+    }
+
+    #lb-img.switching { opacity: 0; }
+
+    .lb-nav {
+      flex-shrink: 0;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: 0.5px solid rgba(248,246,242,0.2);
+      color: rgba(248,246,242,0.6);
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .lb-nav:hover {
+      background: rgba(248,246,242,0.1);
+      border-color: rgba(248,246,242,0.5);
+      color: rgba(248,246,242,1);
+    }
+
+    .lb-nav:disabled {
+      opacity: 0.15;
+      pointer-events: none;
+    }
+
+    .lb-footer {
+      width: 100%;
+      padding: 20px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 0.5px solid rgba(248,246,242,0.08);
+      margin-top: 20px;
+      gap: 16px;
+    }
+
+    .lb-footer-center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      min-width: 0;
+    }
+
+    .lb-title {      font-size: 12px;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(248,246,242,0.6);
+      white-space: nowrap;
+    }
+
+    .lb-counter {      font-size: 10px;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      color: rgba(248,246,242,0.3);
+    }
+
+    .lb-proj-btn {
+      background: none;
+      border: none;      font-size: 10px;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(248,246,242,0.35);
+      cursor: pointer;
+      transition: color 0.2s;
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding: 4px 0;
+    }
+
+    .lb-proj-btn:hover { color: rgba(248,246,242,0.8); }
+
+    .lb-proj-btn:disabled {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .lb-nav-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .lb-nav-label {      font-size: 9px;
+      font-weight: 400;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(248,246,242,0.45);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      white-space: nowrap;
+      text-align: center;
+    }
+
+    .lb-nav-label.visible { opacity: 1; }
+
+    @media (max-width: 768px) {
+      .lb-content { gap: 12px; padding: 56px 16px 0; }
+      .lb-nav { width: 36px; height: 36px; }
+      .lb-footer { padding: 16px 20px; }
+      .lb-close { top: 16px; right: 20px; }
+      .lb-proj-btn { font-size: 9px; letter-spacing: 0.12em; }
+      .lb-nav-label { font-size: 8px; }
+    }
+
+    /* ══════════════════════════════════
+       IMAGES
+    ══════════════════════════════════ */
+    .hero-img-cell img,
+    .project-img-inner img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ══════════════════════════════════
+       HAMBURGER
+    ══════════════════════════════════ */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      position: relative;
+      z-index: 210;
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1px;
+      background: var(--dark);
+      transition: transform 0.3s ease, opacity 0.3s ease;
+      transform-origin: center;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    /* ══════════════════════════════════
+       MOBILE MENU
+    ══════════════════════════════════ */
+    #mobile-menu {
+      position: fixed;
+      inset: 0;
+      background: var(--cream);
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 52px;
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      transition: opacity 0.35s ease, visibility 0.35s ease;
+    }
+
+    #mobile-menu.open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: all;
+    }
+
+    .mobile-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 36px;
+    }
+
+    .mobile-links a {      font-size: 36px;
+      font-weight: 200;
+      letter-spacing: 0.06em;
+      color: var(--dark);
+      text-decoration: none;
+      transition: color 0.25s;
+    }
+
+    .mobile-links a:hover { color: var(--mid); }
+
+    /* ══════════════════════════════════
+       RESPONSIVE — TABLET ≤1024px
+    ══════════════════════════════════ */
+    @media (max-width: 1024px) {
+      nav { padding: 0 32px; }
+      .hero-left { padding: 64px 40px 64px 32px; }
+      .hero-title { font-size: 62px; }
+      .section-header { padding: 64px 32px 40px; }
+      .service-card { padding: 40px 32px; }
+      .about-left, .about-right { padding: 56px 40px; }
+      .contact-left, .contact-right { padding: 64px 40px; }
+      footer { padding: 0 32px; }
+    }
+
+    /* ══════════════════════════════════
+       RESPONSIVE — MOBILE ≤768px
+    ══════════════════════════════════ */
+    @media (max-width: 768px) {
+      nav { padding: 0 24px; height: 56px; }
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      .hero { grid-template-columns: 1fr; padding-top: 56px; }
+      .hero-left { padding: 48px 24px 40px; border-right: none; border-bottom: 0.5px solid var(--border); }
+      .hero-title { font-size: 48px; }
+      .hero-desc { font-size: 13px; }
+      .hero-right { min-height: 60vw; }
+
+      .section-header { padding: 48px 24px 32px; flex-direction: column; align-items: flex-start; gap: 16px; }
+      .section-title { font-size: 36px; }
+
+      .projects-grid { grid-template-columns: 1fr 1fr; }
+
+      .services-grid { grid-template-columns: 1fr; }
+      .service-card { border-right: none; border-bottom: 0.5px solid #2e2e2a; padding: 40px 24px; }
+      .service-card:nth-child(n+3) { border-bottom: 0.5px solid #2e2e2a; }
+      .service-card:last-child { border-bottom: none; }
+
+      .about-body { grid-template-columns: 1fr; }
+      .about-left { padding: 48px 24px; border-right: none; border-bottom: 0.5px solid var(--border); }
+      .about-right { padding: 40px 24px; }
+      .about-quote { font-size: 22px; }
+      .about-text { font-size: 14px; }
+
+      #contact { grid-template-columns: 1fr; }
+      .contact-left { padding: 48px 24px; border-right: none; border-bottom: 0.5px solid var(--border); }
+      .contact-right { padding: 40px 24px; }
+      .contact-title { font-size: 36px; }
+
+      footer { flex-direction: column; gap: 16px; height: auto; padding: 28px 24px; text-align: center; }
+      .footer-links { flex-wrap: wrap; justify-content: center; gap: 20px; }
+    }
+
+    /* ── Intro: tablet */
+    @media (max-width: 768px) {
+      .intro-logo { width: 94vw; max-width: 94vw; }
+      .intro-brickworks,
+      .intro-architecture { font-size: clamp(32px, 7.5vw, 64px); }
+    }
+
+    /* ══════════════════════════════════
+       RESPONSIVE — SMALL MOBILE ≤480px
+    ══════════════════════════════════ */
+    @media (max-width: 480px) {
+      .hero-left { padding: 36px 20px 32px; }
+      .hero-title { font-size: 36px; letter-spacing: 0.01em; }
+      .hero-eyebrow { font-size: 9px; }
+      .hero-desc { font-size: 12px; line-height: 1.7; }
+      .hero-right { min-height: 72vw; }
+
+      .section-header { padding: 36px 20px 24px; }
+      .section-title { font-size: 28px; }
+      .about-quote { font-size: 18px; }
+      .about-text { font-size: 13px; }
+      .about-left { padding: 36px 20px; }
+      .about-right { padding: 32px 20px; }
+      .about-value { padding: 20px 0; }
+      .about-value-title { font-size: 13px; }
+      .about-value-desc { font-size: 12px; }
+
+      .contact-title { font-size: 28px; }
+      .contact-left { padding: 36px 20px; }
+      .contact-right { padding: 32px 20px; }
+.service-card { padding: 32px 20px; }
+      .service-num { font-size: 28px; margin-bottom: 20px; }
+      .service-title { font-size: 17px; }
+      .service-desc { font-size: 13px; }
+      .service-list li { font-size: 12px; }
+
+      .projects-grid { grid-template-columns: 1fr; }
+      .project-info { padding: 16px 18px 20px; }
+      .project-name { font-size: 15px; }
+      .project-type { font-size: 9px; }
+      .project-location { font-size: 11px; }
+
+      /* ── Intro: phone */
+      .intro-logo { width: 96vw; max-width: 96vw; gap: 0.15em; }
+      .intro-brickworks,
+      .intro-architecture {
+        font-size: clamp(22px, 7.5vw, 36px);
+        letter-spacing: 0.07em;
+      }
+      @keyframes bwExit    { from { opacity: 1; transform: translateX(0);    } to { opacity: 0; transform: translateX(-140px); } }
+      @keyframes archExit  { from { opacity: 1; transform: translateX(0);    } to { opacity: 0; transform: translateX(140px);  } }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ INTRO ══ -->
+  <div id="intro">
+    <div class="intro-logo">
+      <div class="intro-brickworks">BRICKWORKS</div>
+      <div class="intro-architecture">ARCHITECTURE</div>
+    </div>
+  </div>
+
+  <!-- ══ MOBILE MENU ══ -->
+  <div id="mobile-menu" aria-hidden="true">
+    <ul class="mobile-links">
+      <li><a href="#work" class="mobile-link"><span class="lang-content en" data-lang="en">Work</span><span class="lang-content ro hidden" data-lang="ro">Proiecte</span></a></li>
+      <li><a href="#services" class="mobile-link"><span class="lang-content en" data-lang="en">Services</span><span class="lang-content ro hidden" data-lang="ro">Servicii</span></a></li>
+      <li><a href="#about" class="mobile-link"><span class="lang-content en" data-lang="en">About</span><span class="lang-content ro hidden" data-lang="ro">Despre</span></a></li>
+      <li><a href="#contact" class="mobile-link"><span class="lang-content en" data-lang="en">Contact</span><span class="lang-content ro hidden" data-lang="ro">Contact</span></a></li>
+    </ul>
+    <div class="lang-toggle">
+      <button class="lang-btn active" id="mob-btn-en">EN</button>
+      <button class="lang-btn" id="mob-btn-ro">RO</button>
+    </div>
+  </div>
+
+  <!-- ══ PAGE ══ -->
+  <div id="page">
+
+    <!-- NAV -->
+    <nav id="navbar">
+      <a href="#" class="nav-logo">BRICKWORKS <span>ARCHITECTURE</span></a>
+      <ul class="nav-links">
+        <li><a href="#work"><span class="lang-content en" data-lang="en">Work</span><span class="lang-content ro hidden" data-lang="ro">Proiecte</span></a></li>
+        <li><a href="#services"><span class="lang-content en" data-lang="en">Services</span><span class="lang-content ro hidden" data-lang="ro">Servicii</span></a></li>
+        <li><a href="#about"><span class="lang-content en" data-lang="en">About</span><span class="lang-content ro hidden" data-lang="ro">Despre</span></a></li>
+        <li><a href="#contact"><span class="lang-content en" data-lang="en">Contact</span><span class="lang-content ro hidden" data-lang="ro">Contact</span></a></li>
+      </ul>
+      <div class="lang-toggle">
+        <button class="lang-btn active" id="btn-en">EN</button>
+        <button class="lang-btn" id="btn-ro">RO</button>
+      </div>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-left">
+        <p class="hero-eyebrow reveal lang-content en" data-lang="en">Architecture Studio & 3D Visualization · Bucharest, Romania</p>
+        <p class="hero-eyebrow reveal lang-content ro hidden" data-lang="ro">Birou de Arhitectură & Vizualizare 3D · București, România</p>
+
+        <h1 class="hero-title reveal reveal-delay-1">
+          <span class="lang-content en" data-lang="en">We design.<br>We coordinate.<br>We deliver.</span>
+          <span class="lang-content ro hidden" data-lang="ro">Proiectăm.<br>Coordonăm.<br>Livrăm.</span>
+        </h1>
+
+        <p class="hero-desc reveal reveal-delay-2 lang-content en" data-lang="en">We are an architecture and 3D visualization studio based in Bucharest, Romania.<br>We deliver complete architectural design and interior design projects through BIM methodology, complemented by photorealistic 3D visualization.</p>
+        <p class="hero-desc reveal reveal-delay-2 lang-content ro hidden" data-lang="ro">Suntem un birou de arhitectură și vizualizare 3D din București, România.<br>Livrăm proiecte complete de arhitectură și design interior prin metodologia BIM, completate de vizualizare 3D fotorealistă.</p>
+
+        <div class="hero-cta reveal reveal-delay-3">
+          <button class="btn-primary lang-content en" data-lang="en" onclick="document.getElementById('work').scrollIntoView({behavior:'smooth'})">See our work</button>
+          <button class="btn-primary lang-content ro hidden" data-lang="ro" onclick="document.getElementById('work').scrollIntoView({behavior:'smooth'})">Vezi proiectele</button>
+          <button class="btn-ghost lang-content en" data-lang="en" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Get in touch</button>
+          <button class="btn-ghost lang-content ro hidden" data-lang="ro" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contactează-ne</button>
+        </div>
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-img-grid">
+          <div class="hero-img-cell">
+            <img id="hero-img-a" class="hero-img active" src="Images/01_MULTIFUNCTIONAL%20SPORTS%20HALL/01_cover.jpg" alt="Multifunctional Sports Hall">
+            <img id="hero-img-b" class="hero-img" src="" alt="">
+          </div>
+        </div>
+        <div class="hero-caption">
+          <div>
+          </div>
+          <div class="hero-nav" style="display:none">
+            <button class="hero-nav-btn" id="hero-prev" aria-label="Previous project">←</button>
+            <span class="hero-counter" id="hero-counter">01 / 06</span>
+            <button class="hero-nav-btn" id="hero-next" aria-label="Next project">→</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="work">
+      <div class="section-header">
+        <div>
+          <p class="section-eyebrow reveal lang-content en" data-lang="en">Selected work</p>
+          <p class="section-eyebrow reveal lang-content ro hidden" data-lang="ro">Proiecte selectate</p>
+          <h2 class="section-title reveal reveal-delay-1 lang-content en" data-lang="en">Our <em>projects</em></h2>
+          <h2 class="section-title reveal reveal-delay-1 lang-content ro hidden" data-lang="ro">Proiectele <em>noastre</em></h2>
+        </div>
+      </div>
+
+      <div class="project-filters">
+        <button class="project-filter active" data-category="all">All</button>
+        <button class="project-filter" data-category="sport">Sport</button>
+        <button class="project-filter" data-category="competitions">Competitions</button>
+        <button class="project-filter" data-category="culture">Culture</button>
+        <button class="project-filter" data-category="residential">Residential</button>
+      </div>
+
+      <div class="projects-grid">
+        <div class="project-card reveal" data-category="sport">
+          <div class="project-img"><div class="project-img-inner img-p1"><img src="Images/01_MULTIFUNCTIONAL%20SPORTS%20HALL/01_cover.jpg" alt="Multifunctional Sports Hall" onerror="this.style.display='none'" loading="lazy"></div><div class="project-overlay"></div></div>
+          <div class="project-info">
+            <p class="project-type lang-content en" data-lang="en">Sport</p>
+            <p class="project-type lang-content ro hidden" data-lang="ro">Sport</p>
+            <h3 class="project-name lang-content en" data-lang="en">Multifunctional Sports Hall</h3>
+            <h3 class="project-name lang-content ro hidden" data-lang="ro">Sală de Sport Multifuncțională</h3>
+            <p class="project-location lang-content en" data-lang="en">Bucharest, Romania</p>
+            <p class="project-location lang-content ro hidden" data-lang="ro">București, România</p>
+          </div>
+        </div>
+        <div class="project-card reveal reveal-delay-1" data-category="competitions">
+          <div class="project-img"><div class="project-img-inner img-p2"><img src="Images/02_PUNTA%20BIANCA/02_cover.jpg" alt="Cultural Center" onerror="this.style.display='none'" loading="lazy"></div><div class="project-overlay"></div></div>
+          <div class="project-info">
+            <p class="project-type lang-content en" data-lang="en">Competitions</p>
+            <p class="project-type lang-content ro hidden" data-lang="ro">Concursuri</p>
+            <h3 class="project-name lang-content en" data-lang="en">Visitor Center</h3>
+            <h3 class="project-name lang-content ro hidden" data-lang="ro">Centru de Vizitatori</h3>
+            <p class="project-location lang-content en" data-lang="en">Punta Bianca Reservation, Sicily, Italy</p>
+            <p class="project-location lang-content ro hidden" data-lang="ro">Rezervația Punta Bianca, Sicilia, Italia</p>
+          </div>
+        </div>
+        <div class="project-card reveal reveal-delay-2" data-category="culture">
+          <div class="project-img"><div class="project-img-inner img-p3"><img src="Images/03_PHILARMONIC%20HALL/03_cover.jpg" alt="Philharmonic Concert Hall" onerror="this.style.display='none'" loading="lazy"></div><div class="project-overlay"></div></div>
+          <div class="project-info">
+            <p class="project-type lang-content en" data-lang="en">Culture</p>
+            <p class="project-type lang-content ro hidden" data-lang="ro">Cultură</p>
+            <h3 class="project-name lang-content en" data-lang="en">Philarmonic Concert Hall</h3>
+            <h3 class="project-name lang-content ro hidden" data-lang="ro">Sală de Concerte Filarmonică</h3>
+            <p class="project-location">Sibiu, Romania</p>
+          </div>
+        </div>
+        <div class="project-card reveal" data-category="culture">
+          <div class="project-img"><div class="project-img-inner img-p4"><img src="Images/04_CULTURAL%20CENTER/04_cover.jpg" alt="Philharmonic Boulevard" onerror="this.style.display='none'" loading="lazy"></div><div class="project-overlay"></div></div>
+          <div class="project-info">
+            <p class="project-type lang-content en" data-lang="en">Culture</p>
+            <p class="project-type lang-content ro hidden" data-lang="ro">Cultură</p>
+            <h3 class="project-name lang-content en" data-lang="en">Cultural Center</h3>
+            <h3 class="project-name lang-content ro hidden" data-lang="ro">Centru Cultural</h3>
+            <p class="project-location">Galati, Romania</p>
+          </div>
+        </div>
+        <div class="project-card reveal reveal-delay-1" data-category="residential">
+          <div class="project-img"><div class="project-img-inner img-p5"><img src="Images/05_BEDROOM%20DESIGN/05_cover.jpg" alt="Collective Housing Concept" onerror="this.style.display='none'" loading="lazy"></div><div class="project-overlay"></div></div>
+          <div class="project-info">
+            <p class="project-type lang-content en" data-lang="en">Residential</p>
+            <p class="project-type lang-content ro hidden" data-lang="ro">Rezidențial</p>
+            <h3 class="project-name lang-content en" data-lang="en">Interior Design</h3>
+            <h3 class="project-name lang-content ro hidden" data-lang="ro">Design Interior</h3>
+            <p class="project-location lang-content en" data-lang="en">Bucharest, Romania</p>
+            <p class="project-location lang-content ro hidden" data-lang="ro">București, România</p>
+          </div>
+        </div>
+        <div class="project-card reveal reveal-delay-2" data-category="residential">
+          <div class="project-img"><div class="project-img-inner img-p6"><img src="Images/06_COLLECTIVE%20HOUSING/06_cover.jpg" alt="Mix Use Development" onerror="this.style.display='none'" loading="lazy"></div><div class="project-overlay"></div></div>
+          <div class="project-info">
+            <p class="project-type lang-content en" data-lang="en">Residential</p>
+            <p class="project-type lang-content ro hidden" data-lang="ro">Rezidențial</p>
+            <h3 class="project-name lang-content en" data-lang="en">Collective Housing</h3>
+            <h3 class="project-name lang-content ro hidden" data-lang="ro">Locuințe Colective</h3>
+            <p class="project-location lang-content en" data-lang="en">Bucharest, Romania</p>
+            <p class="project-location lang-content ro hidden" data-lang="ro">București, România</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES -->
+    <section id="services">
+      <div class="section-header">
+        <div>
+          <p class="section-eyebrow reveal lang-content en" data-lang="en">What we do</p>
+          <p class="section-eyebrow reveal lang-content ro hidden" data-lang="ro">Ce oferim</p>
+          <h2 class="section-title reveal reveal-delay-1 lang-content en" data-lang="en">Our <em>services</em></h2>
+          <h2 class="section-title reveal reveal-delay-1 lang-content ro hidden" data-lang="ro">Serviciile <em>noastre</em></h2>
+        </div>
+      </div>
+      <div class="services-grid">
+        <div class="service-card reveal">
+          <p class="service-num">01</p>
+          <h3 class="service-title lang-content en" data-lang="en">Architectural Design</h3>
+          <h3 class="service-title lang-content ro hidden" data-lang="ro">Proiectare Generală de Arhitectură</h3>
+          <p class="service-desc lang-content en" data-lang="en">You bring the vision and we deliver the complete project. Through BIM methodology, we ensure a strong coordination of all disciplines: architecture, structural and MEP engineering, from concept to building permit.</p>
+          <p class="service-desc lang-content ro hidden" data-lang="ro">Tu vii cu viziunea și noi livrăm proiectul complet. Prin metodologia BIM asigurăm o bună coordonare a specialităților: arhitectură, structură și instalații, de la concept până la autorizare.</p>
+          <ul class="service-list">
+            <li><span class="lang-content en" data-lang="en">Concept design and urban planning documentation</span><span class="lang-content ro hidden" data-lang="ro">Concept arhitectural și documentație de urbanism</span></li>
+            <li><span class="lang-content en" data-lang="en">Full coordination of structural and MEP engineering</span><span class="lang-content ro hidden" data-lang="ro">Coordonare completă structură și instalații</span></li>
+            <li><span class="lang-content en" data-lang="en">Building permit documentation</span><span class="lang-content ro hidden" data-lang="ro">Documentație pentru autorizare (DTAC / PTh / DE)</span></li>
+            <li><span class="lang-content en" data-lang="en">On-site technical assistance</span><span class="lang-content ro hidden" data-lang="ro">Asistență tehnică pe șantier</span></li>
+          </ul>
+        </div>
+        <div class="service-card reveal reveal-delay-1">
+          <p class="service-num">02</p>
+          <h3 class="service-title lang-content en" data-lang="en">Interior Design</h3>
+          <h3 class="service-title lang-content ro hidden" data-lang="ro">Design Interior</h3>
+          <p class="service-desc lang-content en" data-lang="en">A well designed space is not just about aesthetics. It is about how it feels to live or work in it every day. We design interiors that are coherent, functional and finished to the last detail, accompanying you from the first concept to the final days on site.</p>
+          <p class="service-desc lang-content ro hidden" data-lang="ro">Un spațiu bine proiectat nu înseamnă doar estetică. Înseamnă cum te simți în el în fiecare zi. Proiectăm interioare coerente, funcționale și finisate până la ultimul detaliu, însoțindu-te de la primul concept până în ultimele zile de șantier.</p>
+          <ul class="service-list">
+            <li><span class="lang-content en" data-lang="en">Concept and mood boards</span><span class="lang-content ro hidden" data-lang="ro">Concept și mood boards</span></li>
+            <li><span class="lang-content en" data-lang="en">Space planning and material selection</span><span class="lang-content ro hidden" data-lang="ro">Planificare spațială și selecție materiale</span></li>
+            <li><span class="lang-content en" data-lang="en">Technical interior design documentation</span><span class="lang-content ro hidden" data-lang="ro">Documentație tehnică de design interior</span></li>
+            <li><span class="lang-content en" data-lang="en">Supplier coordination and on-site assistance</span><span class="lang-content ro hidden" data-lang="ro">Coordonare furnizori și asistență pe șantier</span></li>
+          </ul>
+        </div>
+        <div class="service-card reveal">
+          <p class="service-num">03</p>
+          <h3 class="service-title lang-content en" data-lang="en">3D Visualization</h3>
+          <h3 class="service-title lang-content ro hidden" data-lang="ro">Vizualizare 3D</h3>
+          <p class="service-desc lang-content en" data-lang="en">Before the project is built, it can already be seen. We produce photorealistic visualizations that communicate your project with clarity and impact, whether for client presentations, permit submissions, or marketing materials. Available as a standalone service or as part of a complete project.</p>
+          <p class="service-desc lang-content ro hidden" data-lang="ro">Înainte să fie construit, proiectul tău poate fi deja văzut. Realizăm vizualizări fotorealiste care comunică proiectul cu claritate și impact, pentru prezentări către clienți, documentații de avizare sau materiale de marketing. Disponibil ca serviciu independent sau inclus într-un proiect complet.</p>
+          <ul class="service-list">
+            <li><span class="lang-content en" data-lang="en">Photorealistic exterior renderings</span><span class="lang-content ro hidden" data-lang="ro">Randări exterioare fotorealiste</span></li>
+            <li><span class="lang-content en" data-lang="en">Photorealistic interior renderings</span><span class="lang-content ro hidden" data-lang="ro">Randări interioare fotorealiste</span></li>
+            <li><span class="lang-content en" data-lang="en">Aerial view renderings</span><span class="lang-content ro hidden" data-lang="ro">Randări aeriene</span></li>
+            <li><span class="lang-content en" data-lang="en">Animations and virtual tours</span><span class="lang-content ro hidden" data-lang="ro">Animații și tururi virtuale</span></li>
+          </ul>
+        </div>
+        <div class="service-card reveal reveal-delay-1">
+          <p class="service-num">04</p>
+          <h3 class="service-title lang-content en" data-lang="en">BIM Consultancy</h3>
+          <h3 class="service-title lang-content ro hidden" data-lang="ro">Consultanță BIM</h3>
+          <p class="service-desc lang-content en" data-lang="en">BIM is not just software. It is a way of working that bridges the gap between technology and practice. We help architecture studios and developers build standards, workflows, and clash-free models that reduce rework, control costs, and speed up project delivery. The result is a predictable process and a project that everyone on the team can trust.</p>
+          <p class="service-desc lang-content ro hidden" data-lang="ro">BIM nu este doar un software. Este o metodă de lucru care face legătura dintre tehnologie și practică. Ajutăm birouri de arhitectură și dezvoltatori să construiască standarde, fluxuri de lucru și modele fără conflicte, reducând reprelucrările, controlând costurile și accelerând livrarea proiectelor. Rezultatul este un proces previzibil și un proiect în care toată echipa poate avea încredere.</p>
+          <ul class="service-list">
+            <li><span class="lang-content en" data-lang="en">BIM workflow assessment and implementation plan</span><span class="lang-content ro hidden" data-lang="ro">Evaluarea workflow-ului și plan de implementare BIM</span></li>
+            <li><span class="lang-content en" data-lang="en">Standards and protocols tailored to your team</span><span class="lang-content ro hidden" data-lang="ro">Standarde și protocoale adaptate echipei tale</span></li>
+            <li><span class="lang-content en" data-lang="en">Clash detection and model coordination</span><span class="lang-content ro hidden" data-lang="ro">Detecție conflicte și coordonare model</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="section-header">
+        <div>
+          <p class="section-eyebrow reveal lang-content en" data-lang="en">The studio</p>
+          <p class="section-eyebrow reveal lang-content ro hidden" data-lang="ro">Studioul</p>
+          <h2 class="section-title reveal reveal-delay-1 lang-content en" data-lang="en">About <em>us</em></h2>
+          <h2 class="section-title reveal reveal-delay-1 lang-content ro hidden" data-lang="ro">Despre <em>noi</em></h2>
+        </div>
+      </div>
+      <div class="about-body">
+        <div class="about-left">
+          <p class="about-text reveal lang-content en" data-lang="en">We are an architecture and 3D visualization practice based in Bucharest, Romania. We work with private clients, developers, and public institutions across Romania, on projects of varying scales, from individual and collective residences to sports halls, hotels, and larger developments. Whatever the size of the project, our approach remains the same: we understand the requirements in depth, coordinate all disciplines within a single process, and deliver solutions that are both well designed and buildable.</p>
+          <p class="about-text reveal lang-content ro hidden" data-lang="ro">Suntem un birou de arhitectură și vizualizare 3D din București, România. Lucrăm cu clienți privați, dezvoltatori și instituții publice din România, pe proiecte cu scări variate, de la locuințe individuale și colective până la săli de sport, hoteluri și ansambluri de mai mare anvergură. Indiferent de dimensiunea proiectului, abordarea rămâne aceeași: înțelegem cerințele în profunzime, coordonăm toate specialitățile într-un singur proces și livrăm soluții frumoase și realizabile.</p>
+          <p class="about-text reveal reveal-delay-1 lang-content en" data-lang="en">BIM methodology is at the core of how we work. It gives every project and every client full visibility and control, from the first sketch to the final permit documentation.</p>
+          <p class="about-text reveal reveal-delay-1 lang-content ro hidden" data-lang="ro">Metodologia BIM este la baza modului în care lucrăm. Oferă fiecărui proiect și fiecărui client vizibilitate și control deplin, de la prima schiță până la documentația finală de autorizare.</p>
+        </div>
+        <div class="about-right">
+          <div class="about-value reveal">
+            <h4 class="about-value-title lang-content en" data-lang="en">Predictability</h4>
+            <h4 class="about-value-title lang-content ro hidden" data-lang="ro">Predictibilitate</h4>
+            <p class="about-value-desc lang-content en" data-lang="en">Every project follows a clear, coordinated process from first sketch to final permit. Our clients always know where things stand and what comes next.</p>
+            <p class="about-value-desc lang-content ro hidden" data-lang="ro">Fiecare proiect urmează un proces clar și coordonat, de la prima schiță până la autorizarea finală. Clienții noștri știu întotdeauna unde se află proiectul și ce urmează.</p>
+          </div>
+          <div class="about-value reveal reveal-delay-1">
+            <h4 class="about-value-title lang-content en" data-lang="en">Technical Quality</h4>
+            <h4 class="about-value-title lang-content ro hidden" data-lang="ro">Calitate tehnică</h4>
+            <p class="about-value-desc lang-content en" data-lang="en">A well designed project is one that can actually be built. We coordinate architecture, structure and MEP engineering so that what we deliver works in practice, not just on paper.</p>
+            <p class="about-value-desc lang-content ro hidden" data-lang="ro">Un proiect bine proiectat este unul care poate fi efectiv construit. Coordonăm arhitectura, structura și instalațiile astfel încât ceea ce livrăm funcționează în practică, nu doar pe hârtie.</p>
+          </div>
+          <div class="about-value reveal reveal-delay-2">
+            <h4 class="about-value-title lang-content en" data-lang="en">Complete Coverage</h4>
+            <h4 class="about-value-title lang-content ro hidden" data-lang="ro">Acoperire completă</h4>
+            <p class="about-value-desc lang-content en" data-lang="en">From architectural design to interior design, 3D visualization and BIM consultancy, one practice, one process, one point of contact for the entire project.</p>
+            <p class="about-value-desc lang-content ro hidden" data-lang="ro">De la proiectare de arhitectură la design interior, vizualizare 3D și consultanță BIM, un singur birou, un singur proces, un singur interlocutor pentru întregul proiect.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="contact-left">
+        <p class="contact-eyebrow reveal lang-content en" data-lang="en">Get in touch</p>
+        <p class="contact-eyebrow reveal lang-content ro hidden" data-lang="ro">Contactează-ne</p>
+        <h2 class="contact-title reveal reveal-delay-1 lang-content en" data-lang="en">Let's talk about<br><em>your project.</em></h2>
+        <h2 class="contact-title reveal reveal-delay-1 lang-content ro hidden" data-lang="ro">Hai să discutăm<br><em>despre proiectul tău.</em></h2>
+        <div class="contact-details">
+          <div class="reveal reveal-delay-2">
+            <p class="contact-item-label">Email</p>
+            <a href="mailto:office@brickworksarch.com" class="contact-item-value">office@brickworksarch.com</a>
+          </div>
+          <div class="reveal reveal-delay-2">
+            <p class="contact-item-label lang-content en" data-lang="en">Phone</p>
+            <p class="contact-item-label lang-content ro hidden" data-lang="ro">Telefon</p>
+            <a href="tel:+40733306004" class="contact-item-value">+40 733 306 004</a>
+          </div>
+          <div class="reveal reveal-delay-2">
+            <p class="contact-item-label lang-content en" data-lang="en">Location</p>
+            <p class="contact-item-label lang-content ro hidden" data-lang="ro">Locație</p>
+            <span class="contact-item-value">Bucharest, Romania</span>
+          </div>
+          <div class="reveal reveal-delay-2">
+            <p class="contact-item-label">Instagram</p>
+            <a href="https://www.instagram.com/brickworks.arch" target="_blank" class="contact-item-value">@brickworks.arch</a>
+          </div>
+        </div>
+      </div>
+      <div class="contact-right">
+        <div class="contact-details">
+          <div class="reveal">
+            <p class="contact-item-label">Email</p>
+            <a href="mailto:office@brickworksarch.com" class="contact-item-value">office@brickworksarch.com</a>
+          </div>
+          <div class="reveal reveal-delay-1">
+            <p class="contact-item-label lang-content en" data-lang="en">Phone</p>
+            <p class="contact-item-label lang-content ro hidden" data-lang="ro">Telefon</p>
+            <a href="tel:+40733306004" class="contact-item-value">+40 733 306 004</a>
+          </div>
+          <div class="reveal reveal-delay-2">
+            <p class="contact-item-label">Instagram</p>
+            <a href="https://www.instagram.com/brickworks.arch" target="_blank" class="contact-item-value">@brickworks.arch</a>
+          </div>
+          <div class="reveal reveal-delay-2">
+            <p class="contact-item-label lang-content en" data-lang="en">Location</p>
+            <p class="contact-item-label lang-content ro hidden" data-lang="ro">Locație</p>
+            <span class="contact-item-value">Bucharest, Romania</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="footer-logo">BRICKWORKS <span>ARCHITECTURE</span></div>
+      <ul class="footer-links">
+        <li><a href="#work"><span class="lang-content en" data-lang="en">Work</span><span class="lang-content ro hidden" data-lang="ro">Proiecte</span></a></li>
+        <li><a href="#services"><span class="lang-content en" data-lang="en">Services</span><span class="lang-content ro hidden" data-lang="ro">Servicii</span></a></li>
+        <li><a href="#about"><span class="lang-content en" data-lang="en">About</span><span class="lang-content ro hidden" data-lang="ro">Despre</span></a></li>
+        <li><a href="#contact"><span class="lang-content en" data-lang="en">Contact</span><span class="lang-content ro hidden" data-lang="ro">Contact</span></a></li>
+      </ul>
+      <p class="footer-copy">© 2026 S.C. BRICKWORKS ARCHITECTURE S.R.L.</p>
+    </footer>
+
+  </div><!-- /page -->
+
+  <!-- ══ LIGHTBOX ══ -->
+  <div id="lightbox" aria-hidden="true" aria-modal="true" role="dialog">
+    <button class="lb-close" id="lb-close" aria-label="Close">&#x2715;</button>
+    <div class="lb-content">
+      <div class="lb-nav-wrap">
+        <button class="lb-nav" id="lb-prev" aria-label="Previous">&#8592;</button>
+        <span class="lb-nav-label" id="lb-prev-label"></span>
+      </div>
+      <div class="lb-img-wrap">
+        <img id="lb-img" src="" alt="" />
+      </div>
+      <div class="lb-nav-wrap">
+        <button class="lb-nav" id="lb-next" aria-label="Next">&#8594;</button>
+        <span class="lb-nav-label" id="lb-next-label"></span>
+      </div>
+    </div>
+    <div class="lb-footer">
+      <button class="lb-proj-btn" id="lb-proj-prev">&#8592; Previous project</button>
+      <div class="lb-footer-center">
+        <span class="lb-title" id="lb-title"></span>
+        <span class="lb-counter" id="lb-counter"></span>
+      </div>
+      <button class="lb-proj-btn" id="lb-proj-next">Next project &#8594;</button>
+    </div>
+  </div>
+
+  <script>
+    // ── INTRO ANIMATION
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        document.getElementById('intro').classList.add('hidden');
+        document.getElementById('page').classList.add('visible');
+        triggerReveal();
+      }, 2800);
+    });
+
+    // ── NAV SCROLL EFFECT
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('navbar');
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    // ── SCROLL REVEAL
+    function triggerReveal() {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12 });
+
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    }
+
+    // ── HAMBURGER MENU
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    hamburger.addEventListener('click', () => {
+      const isOpen = mobileMenu.classList.toggle('open');
+      hamburger.classList.toggle('open', isOpen);
+      mobileMenu.setAttribute('aria-hidden', String(!isOpen));
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    });
+
+    document.querySelectorAll('.mobile-link').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.remove('open');
+        hamburger.classList.remove('open');
+        mobileMenu.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // ── LANG TOGGLE (desktop + mobile in sync)
+    const btnEn    = document.getElementById('btn-en');
+    const btnRo    = document.getElementById('btn-ro');
+    const mobBtnEn = document.getElementById('mob-btn-en');
+    const mobBtnRo = document.getElementById('mob-btn-ro');
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.querySelectorAll('.lang-content').forEach(el => {
+        el.classList.toggle('hidden', el.dataset.lang !== lang);
+      });
+      [btnEn, mobBtnEn].forEach(b => b.classList.toggle('active', lang === 'en'));
+      [btnRo, mobBtnRo].forEach(b => b.classList.toggle('active', lang === 'ro'));
+      document.querySelectorAll('.project-filter').forEach(btn => {
+        btn.textContent = filterLabels[btn.dataset.category][lang];
+      });
+    }
+
+    btnEn.addEventListener('click',    () => setLang('en'));
+    btnRo.addEventListener('click',    () => setLang('ro'));
+    mobBtnEn.addEventListener('click', () => setLang('en'));
+    mobBtnRo.addEventListener('click', () => setLang('ro'));
+
+    // ── HERO CAROUSEL
+    const heroProjects = [
+      { title: 'Multifunctional Sports Hall', img: 'Images/01_MULTIFUNCTIONAL%20SPORTS%20HALL/01_cover.jpg' },
+      { title: 'Visitor Center',              img: 'Images/02_PUNTA%20BIANCA/02_cover.jpg' },
+      { title: 'Philarmonic Concert Hall',    img: 'Images/03_PHILARMONIC%20HALL/03_cover.jpg' },
+      { title: 'Cultural Center',             img: 'Images/04_CULTURAL%20CENTER/04_cover.jpg' },
+      { title: 'Interior Design',             img: 'Images/05_BEDROOM%20DESIGN/05_cover.jpg' },
+      { title: 'Collective Housing',          img: 'Images/06_COLLECTIVE%20HOUSING/06_cover.jpg' },
+    ];
+
+    let heroIdx     = 0;
+    const total     = heroProjects.length;
+    let heroSlot    = 'a';  // which <img> is currently visible
+
+    const heroImgA  = document.getElementById('hero-img-a');
+    const heroImgB  = document.getElementById('hero-img-b');
+
+    function pad(n) { return String(n).padStart(2, '0'); }
+
+    // Preload all images into browser cache immediately
+    heroProjects.forEach(p => { const i = new Image(); i.src = p.img; });
+
+    function setHeroProject(idx) {
+      heroIdx = (idx + total) % total;
+      const p       = heroProjects[heroIdx];
+      const current = heroSlot === 'a' ? heroImgA : heroImgB;
+      const next    = heroSlot === 'a' ? heroImgB : heroImgA;
+
+      // Stage the next image (already cached from preload)
+      next.src = p.img;
+      next.alt = p.title;
+
+      const doSwap = () => {
+        next.classList.add('active');
+        current.classList.remove('active');
+        heroSlot = heroSlot === 'a' ? 'b' : 'a';
+      };
+
+      // If already cached, swap immediately; otherwise wait for load
+      if (next.complete && next.naturalWidth > 0) {
+        doSwap();
+      } else {
+        next.onload  = doSwap;
+        next.onerror = doSwap;
+      }
+    }
+
+    let heroAutoTimer = null;
+
+    function startHeroAuto() {
+      clearInterval(heroAutoTimer);
+      heroAutoTimer = setInterval(() => setHeroProject(heroIdx + 1), 8000);
+    }
+
+    document.getElementById('hero-prev').addEventListener('click', () => { setHeroProject(heroIdx - 1); startHeroAuto(); });
+    document.getElementById('hero-next').addEventListener('click', () => { setHeroProject(heroIdx + 1); startHeroAuto(); });
+
+    const heroRight = document.querySelector('.hero-right');
+    heroRight.addEventListener('mouseenter', () => clearInterval(heroAutoTimer));
+    heroRight.addEventListener('mouseleave', () => startHeroAuto());
+
+    startHeroAuto();
+
+    // ── LIGHTBOX
+    const projectGalleries = [
+      { name: 'Multifunctional Sports Hall', photos: [
+        'Images/01_MULTIFUNCTIONAL%20SPORTS%20HALL/01_cover.jpg',
+        'Images/01_MULTIFUNCTIONAL%20SPORTS%20HALL/01_photo-1.jpg',
+        'Images/01_MULTIFUNCTIONAL%20SPORTS%20HALL/01_photo-2.jpg',
+        'Images/01_MULTIFUNCTIONAL%20SPORTS%20HALL/01_photo-3.jpg',
+      ]},
+      { name: 'Visitor Center', photos: [
+        'Images/02_PUNTA%20BIANCA/02_cover.jpg',
+      ]},
+      { name: 'Philarmonic Concert Hall', photos: [
+        'Images/03_PHILARMONIC%20HALL/03_cover.jpg',
+        'Images/03_PHILARMONIC%20HALL/03_photo-1.jpg',
+        'Images/03_PHILARMONIC%20HALL/03_photo-2.jpg',
+      ]},
+      { name: 'Cultural Center', photos: [
+        'Images/04_CULTURAL%20CENTER/04_cover.jpg',
+      ]},
+      { name: 'Interior Design', photos: [
+        'Images/05_BEDROOM%20DESIGN/05_cover.jpg',
+      ]},
+      { name: 'Collective Housing', photos: [
+        'Images/06_COLLECTIVE%20HOUSING/06_cover.jpg',
+      ]},
+    ];
+
+    let lbGallery    = null;
+    let lbIdx        = 0;
+    let lbProjectIdx = 0;
+    let lbTimer        = null;
+    let lbTransitioning = false;
+
+    const lightbox    = document.getElementById('lightbox');
+    const lbImg       = document.getElementById('lb-img');
+    const lbTitle     = document.getElementById('lb-title');
+    const lbCounter   = document.getElementById('lb-counter');
+    const lbPrev      = document.getElementById('lb-prev');
+    const lbNext      = document.getElementById('lb-next');
+    const lbPrevLabel = document.getElementById('lb-prev-label');
+    const lbNextLabel = document.getElementById('lb-next-label');
+    const lbProjPrev  = document.getElementById('lb-proj-prev');
+    const lbProjNext  = document.getElementById('lb-proj-next');
+
+    function lbUpdate() {
+      const total        = lbGallery.photos.length;
+      const hasMany      = total > 1;
+      const isFirst      = lbIdx === 0;
+      const isLast       = lbIdx === total - 1;
+      const hasPrevProj  = lbProjectIdx > 0;
+      const hasNextProj  = lbProjectIdx < projectGalleries.length - 1;
+
+      lbImg.src             = lbGallery.photos[lbIdx];
+      lbImg.alt             = lbGallery.name;
+      lbTitle.textContent   = lbGallery.name;
+      lbCounter.textContent = hasMany ? pad(lbIdx + 1) + ' / ' + pad(total) : '';
+
+      // ← button: go to prev photo, or prev project on first photo
+      lbPrev.disabled             = isFirst && !hasPrevProj;
+      lbPrev.style.visibility     = (hasMany || hasPrevProj) ? 'visible' : 'hidden';
+      lbPrevLabel.textContent     = 'Prev project';
+      lbPrevLabel.classList.toggle('visible', isFirst && hasPrevProj);
+
+      // → button: go to next photo, or next project on last photo
+      lbNext.disabled             = isLast && !hasNextProj;
+      lbNext.style.visibility     = (hasMany || hasNextProj) ? 'visible' : 'hidden';
+      lbNextLabel.textContent     = 'Next project';
+      lbNextLabel.classList.toggle('visible', isLast && hasNextProj);
+
+      lbProjPrev.disabled = !hasPrevProj;
+      lbProjNext.disabled = !hasNextProj;
+    }
+
+    function lbFadeSwitch(fn) {
+      if (lbTransitioning) return;
+      lbTransitioning = true;
+      lbImg.classList.add('switching');
+      lbTimer = setTimeout(() => {
+        fn();
+        lbUpdate();
+        lbImg.classList.remove('switching');
+        lbTimer = null;
+        lbTransitioning = false;
+      }, 180);
+    }
+
+    function lbGoto(newIdx) {
+      lbFadeSwitch(() => { lbIdx = newIdx; });
+    }
+
+    function lbSwitchProject(newProjectIdx) {
+      lbFadeSwitch(() => {
+        lbProjectIdx = newProjectIdx;
+        lbGallery    = projectGalleries[lbProjectIdx];
+        lbIdx        = 0;
+      });
+    }
+
+    function lbOpen(projectIdx) {
+      lbProjectIdx = projectIdx;
+      lbGallery    = projectGalleries[lbProjectIdx];
+      lbIdx        = 0;
+      lbUpdate();
+      lightbox.classList.add('open');
+      lightbox.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function lbClose() {
+      lightbox.classList.remove('open');
+      lightbox.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    document.getElementById('lb-close').addEventListener('click', lbClose);
+    lightbox.addEventListener('click', e => { if (e.target === lightbox) lbClose(); });
+
+    lbPrev.addEventListener('click', () => {
+      if (lbIdx > 0) lbGoto(lbIdx - 1);
+      else if (lbProjectIdx > 0) lbSwitchProject(lbProjectIdx - 1);
+    });
+
+    lbNext.addEventListener('click', () => {
+      if (lbIdx < lbGallery.photos.length - 1) lbGoto(lbIdx + 1);
+      else if (lbProjectIdx < projectGalleries.length - 1) lbSwitchProject(lbProjectIdx + 1);
+    });
+
+    lbProjPrev.addEventListener('click', () => { if (lbProjectIdx > 0) lbSwitchProject(lbProjectIdx - 1); });
+    lbProjNext.addEventListener('click', () => { if (lbProjectIdx < projectGalleries.length - 1) lbSwitchProject(lbProjectIdx + 1); });
+
+    document.addEventListener('keydown', e => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') lbClose();
+      if (e.key === 'ArrowLeft')  lbPrev.click();
+      if (e.key === 'ArrowRight') lbNext.click();
+    });
+
+    document.querySelectorAll('.project-card').forEach((card, i) => {
+      card.addEventListener('click', () => lbOpen(i));
+    });
+
+    // ── PROJECT FILTERS
+    let currentLang = 'en';
+
+    const filterLabels = {
+      all:          { en: 'All',           ro: 'Toate' },
+      sport:        { en: 'Sport',         ro: 'Sport' },
+      competitions: { en: 'Competitions',  ro: 'Concursuri' },
+      culture:      { en: 'Culture',       ro: 'Cultură' },
+      residential:  { en: 'Residential',   ro: 'Rezidențial' },
+    };
+
+    document.querySelectorAll('.project-filter').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.project-filter').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const cat = btn.dataset.category;
+        document.querySelectorAll('.project-card').forEach(card => {
+          card.style.display = (cat === 'all' || card.dataset.category === cat) ? '' : 'none';
+        });
+      });
+    });
+  </script>
+
+</body>
+</html>
